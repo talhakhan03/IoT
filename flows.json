@@ -1,0 +1,266 @@
+[
+    {
+        "id": "0381ffbc4ef9ea49",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9d23dfb98d21885f",
+        "type": "mqtt in",
+        "z": "0381ffbc4ef9ea49",
+        "name": "",
+        "topic": "#",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "c58b2987d3b72494",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 410,
+        "y": 120,
+        "wires": [
+            [
+                "cf71c104d5a900bf",
+                "23e102908e245a13"
+            ]
+        ]
+    },
+    {
+        "id": "cf71c104d5a900bf",
+        "type": "json",
+        "z": "0381ffbc4ef9ea49",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 570,
+        "y": 200,
+        "wires": [
+            [
+                "176f074f8a1b298e"
+            ]
+        ]
+    },
+    {
+        "id": "23e102908e245a13",
+        "type": "debug",
+        "z": "0381ffbc4ef9ea49",
+        "name": "msg.payload",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1310,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "176f074f8a1b298e",
+        "type": "change",
+        "z": "0381ffbc4ef9ea49",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.uplink_message.decoded_payload",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 200,
+        "wires": [
+            [
+                "23e102908e245a13",
+                "dc0e57fc139af5a7"
+            ]
+        ]
+    },
+    {
+        "id": "4df3781d0397f272",
+        "type": "debug",
+        "z": "0381ffbc4ef9ea49",
+        "name": "msg.payload",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "f8da4e89087af172",
+        "type": "mqtt in",
+        "z": "0381ffbc4ef9ea49",
+        "name": "",
+        "topic": "#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "87b831b502e65a17",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 450,
+        "y": 720,
+        "wires": [
+            [
+                "f9ced301b8314709"
+            ]
+        ]
+    },
+    {
+        "id": "dc0e57fc139af5a7",
+        "type": "function",
+        "z": "0381ffbc4ef9ea49",
+        "name": "function 1",
+        "func": "msg.payload = {\n    api_key: \"8WSDEG2UCLXWZJLS\",  // Replace with your API key\n    field1: msg.payload.distance,  // Map distance to field1\n    field2: msg.payload.value      // Map value to field2\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 260,
+        "wires": [
+            [
+                "5fd01121ab34a4d0"
+            ]
+        ]
+    },
+    {
+        "id": "5fd01121ab34a4d0",
+        "type": "http request",
+        "z": "0381ffbc4ef9ea49",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1430,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9ced301b8314709",
+        "type": "json",
+        "z": "0381ffbc4ef9ea49",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 790,
+        "y": 720,
+        "wires": [
+            [
+                "4df3781d0397f272"
+            ]
+        ]
+    },
+    {
+        "id": "c58b2987d3b72494",
+        "type": "mqtt-broker",
+        "name": "swine-barn",
+        "broker": "nam1.cloud.thethings.network",
+        "port": "1883",
+        "tls": "d64b5444e2f4ca38",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "87b831b502e65a17",
+        "type": "mqtt-broker",
+        "name": "my-appliction",
+        "broker": "nam1.cloud.thethings.network",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d64b5444e2f4ca38",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": true,
+        "alpnprotocol": ""
+    }
+]
